@@ -60,7 +60,7 @@ object AppInjector {
                             fragment: Fragment,
                             savedInstanceState: Bundle?
                         ) {
-                            if (fragment is Injectable) {
+                            if (fragment is InjectableFragment) {
                                 AndroidSupportInjection.inject(fragment)
                             }
                         }
