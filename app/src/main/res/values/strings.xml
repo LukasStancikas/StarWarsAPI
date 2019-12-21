@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">StarWarsApp</string>
+    <string name="label_character_name">Name</string>
+    <string name="label_character_gender">Gender</string>
+    <string name="label_character_birthyear">Birth year</string>
 </resources>

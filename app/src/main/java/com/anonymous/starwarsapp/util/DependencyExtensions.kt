@@ -1,4 +1,4 @@
-package com.anonymous.starwarsapp.dagger
+package com.anonymous.starwarsapp.util
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity

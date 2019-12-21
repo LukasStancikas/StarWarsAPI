@@ -1,6 +1,6 @@
 package com.anonymous.starwarsapp.dagger
 
-import com.anonymous.starwarsapp.feature.characterlist.CharacterListActivity
+import com.anonymous.starwarsapp.feature.MainActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -8,5 +8,5 @@ import dagger.android.ContributesAndroidInjector
 @Module
 abstract class ActivityModule {
     @ContributesAndroidInjector(modules = [FragmentModule::class])
-    abstract fun contributeMainActivity(): CharacterListActivity
+    abstract fun contributeMainActivity(): MainActivity
 }

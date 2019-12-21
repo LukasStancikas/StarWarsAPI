@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import com.anonymous.starwarsapp.model.SWCharacterPage
 import com.anonymous.starwarsapp.network.ApiController
 import com.anonymous.starwarsapp.network.DataResult
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
