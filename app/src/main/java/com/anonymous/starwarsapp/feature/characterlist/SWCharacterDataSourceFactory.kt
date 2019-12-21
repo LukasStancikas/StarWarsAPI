@@ -7,7 +7,6 @@ import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
 
-
 class SWCharacterDataSourceFactory(
     private val apiController: ApiController,
     private val compositeDisposable: CompositeDisposable

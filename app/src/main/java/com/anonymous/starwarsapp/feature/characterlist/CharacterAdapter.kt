@@ -23,15 +23,14 @@ class CharacterAdapter :
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        currentList?.let { characters ->
-            holder.itemView.itemCharacterName.text = characters[position]?.name
-            holder.itemView.itemCharacterGender.text = characters[position]?.gender
-            holder.itemView.itemCharacterBirthYear.text = characters[position]?.birthYear
+        getItem(position)?.let { character ->
+            holder.itemView.itemCharacterName.text = character.name
+            holder.itemView.itemCharacterGender.text = character.gender
+            holder.itemView.itemCharacterBirthYear.text = character.birthYear
         }
     }
 
     override fun getItemCount() = currentList?.size ?: 0
-
 
     class MyViewHolder(view: View) : RecyclerView.ViewHolder(view)
 

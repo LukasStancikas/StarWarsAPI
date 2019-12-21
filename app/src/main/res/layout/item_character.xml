@@ -14,12 +14,14 @@
         android:layout_height="wrap_content"
         android:padding="16dp">
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/labelGuideline"
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/characterLabelBarrier"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.3" />
+            app:barrierDirection="right"
+            app:constraint_referenced_ids="itemCharacterBirthYearLabel,itemCharacterGenderLabel,itemCharacterNameLabel"
+            tools:layout_editor_absoluteX="78dp"
+            tools:layout_editor_absoluteY="16dp" />
 
         <TextView
             android:id="@+id/itemCharacterNameLabel"
@@ -34,8 +36,9 @@
             android:id="@+id/itemCharacterName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_character_label_side"
             app:layout_constraintBottom_toBottomOf="@+id/itemCharacterNameLabel"
-            app:layout_constraintStart_toEndOf="@+id/labelGuideline"
+            app:layout_constraintStart_toEndOf="@+id/characterLabelBarrier"
             app:layout_constraintTop_toTopOf="@+id/itemCharacterNameLabel"
             tools:text="Luke Skywalker" />
 
@@ -43,7 +46,7 @@
             android:id="@+id/itemCharacterGenderLabel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="@dimen/margin_character_label_top"
             android:text="@string/label_character_gender"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -53,8 +56,9 @@
             android:id="@+id/itemCharacterGender"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_character_label_side"
             app:layout_constraintBottom_toBottomOf="@+id/itemCharacterGenderLabel"
-            app:layout_constraintStart_toEndOf="@+id/labelGuideline"
+            app:layout_constraintStart_toEndOf="@+id/characterLabelBarrier"
             app:layout_constraintTop_toTopOf="@+id/itemCharacterGenderLabel"
             tools:text="Male" />
 
@@ -62,7 +66,7 @@
             android:id="@+id/itemCharacterBirthYearLabel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="@dimen/margin_character_label_top"
             android:text="@string/label_character_birthyear"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -72,8 +76,9 @@
             android:id="@+id/itemCharacterBirthYear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_character_label_side"
             app:layout_constraintBottom_toBottomOf="@+id/itemCharacterBirthYearLabel"
-            app:layout_constraintStart_toEndOf="@+id/labelGuideline"
+            app:layout_constraintStart_toEndOf="@+id/characterLabelBarrier"
             app:layout_constraintTop_toTopOf="@+id/itemCharacterBirthYearLabel"
             tools:text="16BYY" />
     </androidx.constraintlayout.widget.ConstraintLayout>

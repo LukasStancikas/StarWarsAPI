@@ -6,11 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.paging.PagedList
 import com.anonymous.starwarsapp.R
 import com.anonymous.starwarsapp.dagger.InjectableFragment
-import com.anonymous.starwarsapp.network.NetworkState
-import com.anonymous.starwarsapp.util.asDriver
 import com.anonymous.starwarsapp.util.injectViewModel
 import com.anonymous.starwarsapp.util.showSnackbar
 import com.google.android.material.snackbar.Snackbar
@@ -20,13 +20,15 @@ import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.android.synthetic.main.fragment_character_list.*
 import javax.inject.Inject
 
-class CharacterListFragment : Fragment(), InjectableFragment {
+class CharacterListFragment : Fragment(), InjectableFragment, PagedList.LoadStateListener {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private lateinit var viewModel: CharacterListViewModel
     private val adapter by lazy { CharacterAdapter() }
+
+    private var hasInitiallyRefreshed: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,8 +46,14 @@ class CharacterListFragment : Fragment(), InjectableFragment {
 
     override fun onStart() {
         super.onStart()
-        subscribeToViewModelStreams()
+        adapter.addLoadStateListener(this)
+        subscribeToPagedCharacterStream()
         subscribeViewInteractions()
+    }
+
+    override fun onStop() {
+        adapter.removeLoadStateListener(this)
+        super.onStop()
     }
 
     @SuppressLint("CheckResult")
@@ -58,37 +66,53 @@ class CharacterListFragment : Fragment(), InjectableFragment {
             )
     }
 
-    @SuppressLint("CheckResult")
-    private fun subscribeToViewModelStreams() {
-        viewModel
-            .networkStateStream
-            .asDriver()
-            .bindToLifecycle(this)
-            .subscribeBy(
-                onNext = ::handleNetworkState
-            )
-
+    private fun subscribeToPagedCharacterStream() {
         viewModel
             .characterDataStream
-            .asDriver()
-            .bindToLifecycle(this)
-            .subscribeBy(
-                onNext = adapter::submitList
-            )
+            .observe(this, Observer {
+                adapter.submitList(it)
+            })
     }
 
-    private fun handleNetworkState(networkState: NetworkState) {
-        when (networkState) {
-            NetworkState.Success -> {
-                characterSwipeRefresh.isRefreshing = false
-                showSnackbar("StarWars characters loaded", Snackbar.LENGTH_SHORT)
-            }
-            is NetworkState.Error -> {
-                characterSwipeRefresh.isRefreshing = false
-                showSnackbar(networkState.throwable.message, Snackbar.LENGTH_SHORT)
-            }
-            NetworkState.Loading -> {
+    override fun onLoadStateChanged(
+        type: PagedList.LoadType,
+        state: PagedList.LoadState,
+        error: Throwable?
+    ) {
+        when {
+            // Handle start of full refresh
+            type == PagedList.LoadType.REFRESH -> {
+                hasInitiallyRefreshed = false
                 characterSwipeRefresh.isRefreshing = true
+            }
+            // Handle start of load of additional page
+            state == PagedList.LoadState.LOADING && type == PagedList.LoadType.END -> {
+                characterSwipeRefresh.isRefreshing = true
+            }
+            // Handle end of load of additional page (also occurs on full refresh)
+            hasInitiallyRefreshed && state == PagedList.LoadState.IDLE && type == PagedList.LoadType.END -> {
+                characterSwipeRefresh.isRefreshing = false
+            }
+            // Handle end of full refresh
+            state == PagedList.LoadState.DONE && type == PagedList.LoadType.START -> {
+                hasInitiallyRefreshed = true
+                characterSwipeRefresh.isRefreshing = false
+                showSnackbar(getString(R.string.message_characters_loaded), Snackbar.LENGTH_SHORT)
+            }
+            // Handle end of pages (nothing more to load)
+            state == PagedList.LoadState.DONE && type == PagedList.LoadType.END -> {
+                characterSwipeRefresh.isRefreshing = false
+                showSnackbar(getString(R.string.message_characters_ended), Snackbar.LENGTH_SHORT)
+            }
+            // Handle Error
+            state == PagedList.LoadState.ERROR -> {
+                characterSwipeRefresh.isRefreshing = false
+                showSnackbar(error?.message, Snackbar.LENGTH_SHORT)
+            }
+            // Handle Retryable Error
+            state == PagedList.LoadState.RETRYABLE_ERROR -> {
+                characterSwipeRefresh.isRefreshing = false
+                showSnackbar(error?.message, Snackbar.LENGTH_SHORT)
             }
         }
     }

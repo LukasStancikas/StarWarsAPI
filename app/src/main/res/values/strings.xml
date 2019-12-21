@@ -3,4 +3,6 @@
     <string name="label_character_name">Name</string>
     <string name="label_character_gender">Gender</string>
     <string name="label_character_birthyear">Birth year</string>
+    <string name="message_characters_loaded">Fresh StarWars characters loaded</string>
+    <string name="message_characters_ended">No more StarWars characters to load</string>
 </resources>
