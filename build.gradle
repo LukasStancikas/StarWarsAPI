@@ -12,6 +12,7 @@ buildscript {
         rxBindingVersion = '3.0.0'
         testRulesVersion = '1.2.0'
         daggerVersion = '2.23.2'
+        pagingVersion = '2.1.1'
     }
     repositories {
         google()

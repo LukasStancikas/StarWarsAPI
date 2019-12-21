@@ -9,8 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.anonymous.starwarsapp.R
 import com.anonymous.starwarsapp.dagger.InjectableFragment
-import com.anonymous.starwarsapp.model.SWCharacterPage
-import com.anonymous.starwarsapp.network.DataResult
+import com.anonymous.starwarsapp.network.NetworkState
 import com.anonymous.starwarsapp.util.asDriver
 import com.anonymous.starwarsapp.util.injectViewModel
 import com.anonymous.starwarsapp.util.showSnackbar
@@ -45,9 +44,8 @@ class CharacterListFragment : Fragment(), InjectableFragment {
 
     override fun onStart() {
         super.onStart()
-        subscribeToData()
+        subscribeToViewModelStreams()
         subscribeViewInteractions()
-        viewModel.refreshCharacters()
     }
 
     @SuppressLint("CheckResult")
@@ -56,33 +54,40 @@ class CharacterListFragment : Fragment(), InjectableFragment {
             .refreshes()
             .bindToLifecycle(this)
             .subscribeBy(
-                onNext = { viewModel.refreshCharacters() }
+                onNext = { viewModel.refreshAllData() }
             )
     }
 
     @SuppressLint("CheckResult")
-    private fun subscribeToData() {
+    private fun subscribeToViewModelStreams() {
+        viewModel
+            .networkStateStream
+            .asDriver()
+            .bindToLifecycle(this)
+            .subscribeBy(
+                onNext = ::handleNetworkState
+            )
+
         viewModel
             .characterDataStream
             .asDriver()
             .bindToLifecycle(this)
             .subscribeBy(
-                onNext = ::showData
+                onNext = adapter::submitList
             )
     }
 
-    private fun showData(dataResult: DataResult<SWCharacterPage>) {
-        when (dataResult.status) {
-            DataResult.Status.SUCCESS -> {
+    private fun handleNetworkState(networkState: NetworkState) {
+        when (networkState) {
+            NetworkState.Success -> {
                 characterSwipeRefresh.isRefreshing = false
-                dataResult.data?.let { adapter.setItems(it.results) }
                 showSnackbar("StarWars characters loaded", Snackbar.LENGTH_SHORT)
             }
-            DataResult.Status.ERROR -> {
+            is NetworkState.Error -> {
                 characterSwipeRefresh.isRefreshing = false
-                showSnackbar(dataResult.message, Snackbar.LENGTH_SHORT)
+                showSnackbar(networkState.throwable.message, Snackbar.LENGTH_SHORT)
             }
-            DataResult.Status.LOADING -> {
+            NetworkState.Loading -> {
                 characterSwipeRefresh.isRefreshing = true
             }
         }
