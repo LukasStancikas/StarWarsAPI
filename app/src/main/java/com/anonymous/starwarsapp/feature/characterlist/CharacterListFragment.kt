@@ -13,6 +13,8 @@ import com.anonymous.starwarsapp.model.SWCharacterPage
 import com.anonymous.starwarsapp.network.DataResult
 import com.anonymous.starwarsapp.util.asDriver
 import com.anonymous.starwarsapp.util.injectViewModel
+import com.anonymous.starwarsapp.util.showSnackbar
+import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxbinding3.swiperefreshlayout.refreshes
 import com.trello.rxlifecycle3.android.lifecycle.kotlin.bindToLifecycle
 import io.reactivex.rxkotlin.subscribeBy
@@ -25,6 +27,7 @@ class CharacterListFragment : Fragment(), InjectableFragment {
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private lateinit var viewModel: CharacterListViewModel
+    private val adapter by lazy { CharacterAdapter() }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,6 +36,11 @@ class CharacterListFragment : Fragment(), InjectableFragment {
     ): View? {
         viewModel = injectViewModel(viewModelFactory)
         return inflater.inflate(R.layout.fragment_character_list, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        characterRecycler.adapter = adapter
     }
 
     override fun onStart() {
@@ -67,15 +75,15 @@ class CharacterListFragment : Fragment(), InjectableFragment {
         when (dataResult.status) {
             DataResult.Status.SUCCESS -> {
                 characterSwipeRefresh.isRefreshing = false
-                dataText.text = dataResult.data?.count?.toString()
+                dataResult.data?.let { adapter.setItems(it.results) }
+                showSnackbar("StarWars characters loaded", Snackbar.LENGTH_SHORT)
             }
             DataResult.Status.ERROR -> {
                 characterSwipeRefresh.isRefreshing = false
-                dataText.text = dataResult.message
+                showSnackbar(dataResult.message, Snackbar.LENGTH_SHORT)
             }
             DataResult.Status.LOADING -> {
                 characterSwipeRefresh.isRefreshing = true
-                dataText.text = null
             }
         }
     }

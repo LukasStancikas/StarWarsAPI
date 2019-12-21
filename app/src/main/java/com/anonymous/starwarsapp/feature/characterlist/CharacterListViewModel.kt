@@ -1,6 +1,8 @@
 package com.anonymous.starwarsapp.feature.characterlist
 
 import androidx.lifecycle.ViewModel
+import androidx.paging.PagedList
+import com.anonymous.starwarsapp.model.SWCharacter
 import com.anonymous.starwarsapp.model.SWCharacterPage
 import com.anonymous.starwarsapp.network.ApiController
 import com.anonymous.starwarsapp.network.DataResult
@@ -13,7 +15,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class CharacterListViewModel @Inject constructor(private val api: ApiController) : ViewModel() {
-    private val _characterDataStream = BehaviorSubject.create<DataResult<SWCharacterPage>>()
+    private val _characterDataStream = BehaviorSubject.create<DataResult<PagedList<SWCharacter>>>()
     private val disposables = CompositeDisposable()
 
     val characterDataStream = _characterDataStream.hide()
