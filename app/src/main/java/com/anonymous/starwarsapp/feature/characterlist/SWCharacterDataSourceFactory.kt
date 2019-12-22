@@ -15,10 +15,16 @@ class SWCharacterDataSourceFactory(
     private val _dataSource = BehaviorSubject.create<SWCharacterDataSource>()
     val dataSource: Observable<SWCharacterDataSource> = _dataSource.hide()
 
+    private var query: String? = null
+
     override fun create(): DataSource<Int, SWCharacter> {
-        return SWCharacterDataSource(apiController, compositeDisposable)
+        return SWCharacterDataSource(apiController, compositeDisposable, query)
             .apply {
                 _dataSource.onNext(this)
             }
+    }
+
+    fun setQuery(newQuery: String?) {
+        query = newQuery
     }
 }

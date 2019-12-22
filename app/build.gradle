@@ -45,7 +45,7 @@ dependencies {
 
     // RxBinding
     implementation "com.jakewharton.rxbinding3:rxbinding-swiperefreshlayout:$rxBindingVersion"
-    implementation "com.jakewharton.rxbinding3:rxbinding-material:$rxBindingVersion"
+    implementation "com.jakewharton.rxbinding3:rxbinding-appcompat:$rxBindingVersion"
 
     // RxLifecycle
     implementation 'com.trello.rxlifecycle3:rxlifecycle-android-lifecycle-kotlin:3.1.0'

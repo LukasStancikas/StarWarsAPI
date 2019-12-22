@@ -10,14 +10,15 @@ import io.reactivex.rxkotlin.subscribeBy
 
 class SWCharacterDataSource(
     private val api: ApiController,
-    private val compositeDisposable: CompositeDisposable
+    private val compositeDisposable: CompositeDisposable,
+    private val query: String?
 ) : PageKeyedDataSource<Int, SWCharacter>() {
 
     override fun loadInitial(
         params: LoadInitialParams<Int>,
         callback: LoadInitialCallback<Int, SWCharacter>
     ) {
-        api.getStarWarsCharacters(1)
+        api.getStarWarsCharacters(query, 1)
             .asDriver()
             .subscribeBy(
                 onSuccess = {
@@ -29,7 +30,7 @@ class SWCharacterDataSource(
     }
 
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, SWCharacter>) {
-        api.getStarWarsCharacters(params.key)
+        api.getStarWarsCharacters(query, params.key)
             .asDriver()
             .subscribeBy(
                 onSuccess = {
@@ -41,7 +42,7 @@ class SWCharacterDataSource(
     }
 
     override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, SWCharacter>) {
-        api.getStarWarsCharacters(params.key)
+        api.getStarWarsCharacters(query, params.key)
             .asDriver()
             .subscribeBy(
                 onSuccess = {

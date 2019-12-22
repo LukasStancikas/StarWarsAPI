@@ -8,12 +8,7 @@ import retrofit2.http.Query
 interface StarWarsApi {
     @GET("people/")
     fun getStarWarsCharacters(
-        @Query("page") page: Int
-    ): Single<SWCharacterPage>
-
-    @GET("people/")
-    fun searchForStarWarsCharacter(
-        @Query("search") searchName: String,
+        @Query("search") searchName: String?,
         @Query("page") page: Int
     ): Single<SWCharacterPage>
 }

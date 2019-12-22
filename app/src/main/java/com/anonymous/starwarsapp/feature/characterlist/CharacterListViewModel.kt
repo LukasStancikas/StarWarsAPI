@@ -1,6 +1,7 @@
 package com.anonymous.starwarsapp.feature.characterlist
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
@@ -15,21 +16,40 @@ import javax.inject.Inject
 class CharacterListViewModel @Inject constructor(api: ApiController) : ViewModel() {
     val characterDataStream: LiveData<PagedList<SWCharacter>>
 
+    private val _emptyResultStream = MutableLiveData<Boolean>()
+    val emptyResultStream: LiveData<Boolean> = _emptyResultStream
+
     private val compositeDisposable = CompositeDisposable()
     private val characterDataSourceFactory = SWCharacterDataSourceFactory(api, compositeDisposable)
 
     init {
         val config = PagedList.Config.Builder()
-            .setPrefetchDistance(3)
+            .setPrefetchDistance(PAGE_PREFETCH_DISTANCE)
             .setEnablePlaceholders(true)
-            .setPageSize(10)
+            .setPageSize(PAGE_SIZE)
             .build()
 
         characterDataStream = LivePagedListBuilder(characterDataSourceFactory, config)
+            .setBoundaryCallback(object : PagedList.BoundaryCallback<SWCharacter>() {
+                override fun onZeroItemsLoaded() {
+                    super.onZeroItemsLoaded()
+                    _emptyResultStream.postValue(true)
+                }
+
+                override fun onItemAtFrontLoaded(itemAtFront: SWCharacter) {
+                    super.onItemAtFrontLoaded(itemAtFront)
+                    _emptyResultStream.postValue(false)
+                }
+            })
             .build()
     }
 
-    fun refreshAllData() {
+    override fun onCleared() {
+        compositeDisposable.clear()
+        super.onCleared()
+    }
+
+    fun refreshData() {
         characterDataSourceFactory
             .dataSource
             .take(1)
@@ -40,8 +60,13 @@ class CharacterListViewModel @Inject constructor(api: ApiController) : ViewModel
             .addTo(compositeDisposable)
     }
 
-    override fun onCleared() {
-        compositeDisposable.clear()
-        super.onCleared()
+    fun searchForCharacter(query: String) {
+        characterDataSourceFactory.setQuery(query)
+        refreshData()
+    }
+
+    companion object {
+        const val PAGE_PREFETCH_DISTANCE = 3
+        const val PAGE_SIZE = 10
     }
 }

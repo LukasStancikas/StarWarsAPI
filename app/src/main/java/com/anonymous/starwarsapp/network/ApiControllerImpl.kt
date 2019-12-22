@@ -6,14 +6,10 @@ import io.reactivex.Single
 class ApiControllerImpl(
     private val api: StarWarsApi
 ) : ApiController {
-    override fun getStarWarsCharacters(page: Int): Single<SWCharacterPage> {
-        return api.getStarWarsCharacters(page)
-    }
-
-    override fun searchForStarWarsCharacter(
-        searchName: String,
+    override fun getStarWarsCharacters(
+        searchName: String?,
         page: Int
     ): Single<SWCharacterPage> {
-        return api.searchForStarWarsCharacter(searchName, page)
+        return api.getStarWarsCharacters(searchName, page)
     }
 }
