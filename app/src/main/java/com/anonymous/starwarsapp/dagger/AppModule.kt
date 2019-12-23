@@ -3,7 +3,9 @@ package com.anonymous.starwarsapp.dagger
 import com.anonymous.starwarsapp.BuildConfig
 import com.anonymous.starwarsapp.network.HeaderInterceptor
 import com.anonymous.starwarsapp.network.StarWarsApi
+import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -19,9 +21,10 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideStarWarsService(okHttpClient: OkHttpClient,
-                               converterFactory: GsonConverterFactory
-    ):StarWarsApi  =  Retrofit.Builder()
+    fun provideStarWarsService(
+        okHttpClient: OkHttpClient,
+        converterFactory: GsonConverterFactory
+    ): StarWarsApi = Retrofit.Builder()
         .baseUrl("https://swapi.co/api/")
         .client(okHttpClient)
         .addConverterFactory(converterFactory)
@@ -57,7 +60,9 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideGson(): Gson = Gson()
+    fun provideGson(): Gson = GsonBuilder()
+        .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+        .create()
 
     @Provides
     @Singleton

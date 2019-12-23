@@ -10,6 +10,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.anonymous.starwarsapp.R
 import com.anonymous.starwarsapp.dagger.InjectableFragment
+import com.anonymous.starwarsapp.feature.MainActivity
+import com.anonymous.starwarsapp.model.SWCharacter
 import com.anonymous.starwarsapp.util.PageLoadListenerWrapper
 import com.anonymous.starwarsapp.util.injectViewModel
 import com.anonymous.starwarsapp.util.showShortSnackbar
@@ -21,39 +23,12 @@ import kotlinx.android.synthetic.main.fragment_character_list.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class CharacterListFragment : Fragment(), InjectableFragment {
-
+class CharacterListFragment : Fragment(), InjectableFragment, CharacterAdapter.OnItemClickListener {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private lateinit var viewModel: CharacterListViewModel
     private val adapter by lazy { CharacterAdapter() }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        viewModel = injectViewModel(viewModelFactory)
-        return inflater.inflate(R.layout.fragment_character_list, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        characterRecycler.adapter = adapter
-    }
-
-    override fun onStart() {
-        super.onStart()
-        adapter.addLoadStateListener(pageLoadListener)
-        subscribeToViewModelStreams()
-        subscribeViewInteractions()
-    }
-
-    override fun onStop() {
-        adapter.removeLoadStateListener(pageLoadListener)
-        super.onStop()
-    }
 
     private val pageLoadListener = object : PageLoadListenerWrapper() {
         override fun onStartedRefresh() {
@@ -87,6 +62,37 @@ class CharacterListFragment : Fragment(), InjectableFragment {
             characterSwipeRefresh.isRefreshing = false
             showShortSnackbar(error?.message)
         }
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        viewModel = injectViewModel(viewModelFactory)
+        return inflater.inflate(R.layout.fragment_character_list, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        characterRecycler.adapter = adapter
+        adapter.setOnItemClickListener(this)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        adapter.addLoadStateListener(pageLoadListener)
+        subscribeToViewModelStreams()
+        subscribeViewInteractions()
+    }
+
+    override fun onStop() {
+        adapter.removeLoadStateListener(pageLoadListener)
+        super.onStop()
+    }
+
+    override fun onClick(item: SWCharacter) {
+        (activity as? MainActivity)?.onSWCharacterClicked(item)
     }
 
     @SuppressLint("CheckResult")

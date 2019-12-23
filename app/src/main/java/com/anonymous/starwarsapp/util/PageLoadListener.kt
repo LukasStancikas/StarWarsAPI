@@ -25,8 +25,6 @@ abstract class PageLoadListenerWrapper : PagedList.LoadStateListener {
         state: PagedList.LoadState,
         error: Throwable?
     ) {
-        Timber.e(type.toString())
-        Timber.e(state.toString())
         when {
             // Handle start of full refresh
             type == PagedList.LoadType.REFRESH -> {

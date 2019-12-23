@@ -13,6 +13,8 @@ import kotlinx.android.synthetic.main.item_character.view.*
 class CharacterAdapter :
     PagedListAdapter<SWCharacter, CharacterAdapter.MyViewHolder>(CharacterDiffCallback()) {
 
+    private var itemClickListener : OnItemClickListener? = null
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -27,10 +29,21 @@ class CharacterAdapter :
             holder.itemView.itemCharacterName.text = character.name
             holder.itemView.itemCharacterGender.text = character.gender
             holder.itemView.itemCharacterBirthYear.text = character.birthYear
+            holder.itemView.setOnClickListener {
+                itemClickListener?.onClick(character)
+            }
         }
     }
 
     override fun getItemCount() = currentList?.size ?: 0
+
+    fun setOnItemClickListener(itemClickListener: OnItemClickListener) {
+        this.itemClickListener = itemClickListener
+    }
+
+    interface OnItemClickListener {
+        fun onClick(item: SWCharacter)
+    }
 
     class MyViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
