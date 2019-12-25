@@ -25,7 +25,7 @@ class AppModule {
         okHttpClient: OkHttpClient,
         converterFactory: GsonConverterFactory
     ): StarWarsApi = Retrofit.Builder()
-        .baseUrl("https://swapi.co/api/")
+        .baseUrl(StarWarsApi.BASE_URL)
         .client(okHttpClient)
         .addConverterFactory(converterFactory)
         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())

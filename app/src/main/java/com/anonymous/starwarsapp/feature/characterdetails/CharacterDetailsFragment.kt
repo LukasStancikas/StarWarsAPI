@@ -51,6 +51,12 @@ class CharacterDetailsFragment : Fragment(), InjectableFragment {
         showCharacterDetails()
     }
 
+    override fun onStart() {
+        super.onStart()
+        subscribeToViewModelStreams()
+        subscribeToViewInteractions()
+    }
+
     private fun showCharacterDetails() {
         characterDetailsName.text = character.name
         characterDetailsGender.text = character.gender
@@ -59,12 +65,6 @@ class CharacterDetailsFragment : Fragment(), InjectableFragment {
         characterDetailsMass.text = character.mass
         characterDetailsSkinColor.text = character.skinColor
         characterDetailsHairColor.text = character.hairColor
-    }
-
-    override fun onStart() {
-        super.onStart()
-        subscribeToViewModelStreams()
-        subscribeToViewInteractions()
     }
 
     @SuppressLint("CheckResult")

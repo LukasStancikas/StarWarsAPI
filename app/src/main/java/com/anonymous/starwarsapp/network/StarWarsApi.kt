@@ -24,4 +24,8 @@ interface StarWarsApi {
     fun getStarWarsStarship(
         @Path("id") id: String
     ): Single<SWStarship>
+
+    companion object {
+        const val BASE_URL = "https://swapi.co/api/"
+    }
 }

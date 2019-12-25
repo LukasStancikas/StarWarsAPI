@@ -29,6 +29,4 @@
     <string name="label_starship_hyperdrive">Hyperdrive Rating</string>
     <string name="label_starship_class">Class</string>
     <string name="label_starship_pilots">Pilot count</string>
-
-
 </resources>
