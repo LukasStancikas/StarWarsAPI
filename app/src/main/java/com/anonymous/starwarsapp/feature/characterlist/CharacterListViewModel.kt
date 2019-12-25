@@ -14,7 +14,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class CharacterListViewModel @Inject constructor(api: ApiController) : ViewModel() {
-    val characterDataStream: LiveData<PagedList<SWCharacter>>
+    val characterListStream: LiveData<PagedList<SWCharacter>>
 
     private val _emptyResultStream = MutableLiveData<Boolean>()
     val emptyResultStream: LiveData<Boolean> = _emptyResultStream
@@ -33,7 +33,7 @@ class CharacterListViewModel @Inject constructor(api: ApiController) : ViewModel
             .setPageSize(PAGE_SIZE)
             .build()
 
-        characterDataStream = LivePagedListBuilder(characterDataSourceFactory, config)
+        characterListStream = LivePagedListBuilder(characterDataSourceFactory, config)
             .setBoundaryCallback(object : PagedList.BoundaryCallback<SWCharacter>() {
                 override fun onZeroItemsLoaded() {
                     super.onZeroItemsLoaded()

@@ -119,7 +119,7 @@ class CharacterListFragment : Fragment(), InjectableFragment, CharacterAdapter.O
 
     private fun subscribeToViewModelStreams() {
         viewModel
-            .characterDataStream
+            .characterListStream
             .observe(this, Observer {
                 adapter.submitList(it)
             })

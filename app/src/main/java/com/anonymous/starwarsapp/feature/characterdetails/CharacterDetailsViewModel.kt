@@ -40,6 +40,18 @@ class CharacterDetailsViewModel @Inject constructor(private val api: ApiControll
         val filmListStream = convertRequestsToListStream(filmRequests)
         val starshipListStream = convertRequestsToListStream(starshipRequests)
 
+        Singles.zip(filmListStream, starshipListStream)
+            .asDriver()
+            .doOnSubscribe { _loadingStream.onNext(NetworkState.Loading) }
+            .doOnError(Timber::e)
+            .subscribeBy(
+                onSuccess = {
+                    _loadingStream.onNext(NetworkState.Done)
+                },
+                onError = {}
+            )
+            .addTo(compositeDisposable)
+
         filmListStream
             .asDriver()
             .subscribeBy(
@@ -60,17 +72,7 @@ class CharacterDetailsViewModel @Inject constructor(private val api: ApiControll
             )
             .addTo(compositeDisposable)
 
-        Singles.zip(filmListStream, starshipListStream)
-            .asDriver()
-            .doOnSubscribe { _loadingStream.onNext(NetworkState.Loading) }
-            .doOnError(Timber::e)
-            .subscribeBy(
-                onSuccess = {
-                    _loadingStream.onNext(NetworkState.Done)
-                },
-                onError = {}
-            )
-            .addTo(compositeDisposable)
+
     }
 
     private fun <T> convertRequestsToListStream(requests: List<Single<T>>): Single<List<T>> {
