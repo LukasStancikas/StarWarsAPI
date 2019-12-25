@@ -43,14 +43,20 @@ class CharacterDetailsViewModel @Inject constructor(private val api: ApiControll
         filmListStream
             .asDriver()
             .subscribeBy(
-                onSuccess = _filmsDataStream::onNext
+                onSuccess = _filmsDataStream::onNext,
+                onError = {
+                    _loadingStream.onNext(NetworkState.Error(it))
+                }
             )
             .addTo(compositeDisposable)
 
         starshipListStream
             .asDriver()
             .subscribeBy(
-                onSuccess = _starshipsDataStream::onNext
+                onSuccess = _starshipsDataStream::onNext,
+                onError = {
+                    _loadingStream.onNext(NetworkState.Error(it))
+                }
             )
             .addTo(compositeDisposable)
 
@@ -62,9 +68,7 @@ class CharacterDetailsViewModel @Inject constructor(private val api: ApiControll
                 onSuccess = {
                     _loadingStream.onNext(NetworkState.Done)
                 },
-                onError = {
-                    _loadingStream.onNext(NetworkState.Error(it))
-                }
+                onError = {}
             )
             .addTo(compositeDisposable)
     }
