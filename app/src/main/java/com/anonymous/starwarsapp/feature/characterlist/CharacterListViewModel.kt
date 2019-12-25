@@ -19,8 +19,12 @@ class CharacterListViewModel @Inject constructor(api: ApiController) : ViewModel
     private val _emptyResultStream = MutableLiveData<Boolean>()
     val emptyResultStream: LiveData<Boolean> = _emptyResultStream
 
+    private val _errorStream = MutableLiveData<Throwable>()
+    val errorStream: LiveData<Throwable> = _errorStream
+
     private val compositeDisposable = CompositeDisposable()
-    private val characterDataSourceFactory = SWCharacterDataSourceFactory(api, compositeDisposable)
+    private val characterDataSourceFactory =
+        SWCharacterDataSourceFactory(api, compositeDisposable, ::onCharacterLoadError)
 
     init {
         val config = PagedList.Config.Builder()
@@ -65,6 +69,10 @@ class CharacterListViewModel @Inject constructor(api: ApiController) : ViewModel
     fun searchForCharacter(query: String) {
         characterDataSourceFactory.setQuery(query)
         refreshData()
+    }
+
+    private fun onCharacterLoadError(error: Throwable) {
+        _errorStream.postValue(error)
     }
 
     companion object {

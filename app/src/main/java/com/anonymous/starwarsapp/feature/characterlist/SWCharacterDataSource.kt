@@ -10,6 +10,7 @@ import io.reactivex.rxkotlin.subscribeBy
 
 class SWCharacterDataSource(
     private val api: ApiController,
+    private val onError: (Throwable) -> Unit,
     private val compositeDisposable: CompositeDisposable,
     private val query: String?
 ) : PageKeyedDataSource<Int, SWCharacter>() {
@@ -24,7 +25,8 @@ class SWCharacterDataSource(
                 onSuccess = {
                     val nextPage = it.next?.let { 2 }
                     callback.onResult(it.results, null, nextPage)
-                }
+                },
+                onError = onError
             )
             .addTo(compositeDisposable)
     }
@@ -36,7 +38,8 @@ class SWCharacterDataSource(
                 onSuccess = {
                     val nextPage = it.next?.let { params.key + 1 }
                     callback.onResult(it.results, nextPage)
-                }
+                },
+                onError = onError
             )
             .addTo(compositeDisposable)
     }
@@ -48,7 +51,8 @@ class SWCharacterDataSource(
                 onSuccess = {
                     val previousPage = it.previous?.let { params.key - 1 }
                     callback.onResult(it.results, previousPage)
-                }
+                },
+                onError = onError
             )
             .addTo(compositeDisposable)
     }

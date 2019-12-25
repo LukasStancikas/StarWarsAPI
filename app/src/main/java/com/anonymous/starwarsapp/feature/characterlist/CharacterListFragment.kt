@@ -102,7 +102,6 @@ class CharacterListFragment : Fragment(), InjectableFragment, CharacterAdapter.O
     private fun subscribeViewInteractions() {
         characterSwipeRefresh
             .refreshes()
-            .skip(1)
             .bindToLifecycle(this)
             .subscribeBy(
                 onNext = { viewModel.refreshData() }
@@ -132,6 +131,13 @@ class CharacterListFragment : Fragment(), InjectableFragment, CharacterAdapter.O
                     characterSwipeRefresh.isRefreshing = false
                     showShortSnackbar(getString(R.string.message_characters_empty))
                 }
+            })
+
+        viewModel
+            .errorStream
+            .observe(this, Observer { error ->
+                characterSwipeRefresh.isRefreshing = false
+                showShortSnackbar(error.message)
             })
     }
 

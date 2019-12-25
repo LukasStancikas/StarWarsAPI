@@ -9,7 +9,8 @@ import io.reactivex.subjects.BehaviorSubject
 
 class SWCharacterDataSourceFactory(
     private val apiController: ApiController,
-    private val compositeDisposable: CompositeDisposable
+    private val compositeDisposable: CompositeDisposable,
+    private val onError: (Throwable) -> Unit
 ) : DataSource.Factory<Int, SWCharacter>() {
 
     private val _dataSource = BehaviorSubject.create<SWCharacterDataSource>()
@@ -18,7 +19,7 @@ class SWCharacterDataSourceFactory(
     private var query: String? = null
 
     override fun create(): DataSource<Int, SWCharacter> {
-        return SWCharacterDataSource(apiController, compositeDisposable, query)
+        return SWCharacterDataSource(apiController, onError, compositeDisposable, query)
             .apply {
                 _dataSource.onNext(this)
             }
