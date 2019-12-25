@@ -4,28 +4,27 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/margin_card_view"
-    android:foreground="?attr/selectableItemBackground"
     app:cardElevation="@dimen/elevation_card_view">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="16dp">
 
         <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/characterLabelBarrier"
+            android:id="@+id/filmLabelBarrier"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="right"
-            app:constraint_referenced_ids="characterLabelContainer" />
+            app:constraint_referenced_ids="filmLabelContainer" />
 
         <LinearLayout
-            android:id="@+id/characterLabelContainer"
+            android:id="@+id/filmLabelContainer"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:divider="@drawable/divider_card_label"
             android:orientation="vertical"
             android:showDividers="middle"
@@ -34,43 +33,60 @@
 
             <TextView
                 style="@style/LabelStyle"
-                android:text="@string/label_character_name" />
+                android:text="@string/label_film_title" />
 
             <TextView
                 style="@style/LabelStyle"
-                android:text="@string/label_character_gender" />
+                android:text="@string/label_film_director" />
 
             <TextView
                 style="@style/LabelStyle"
-                android:text="@string/label_character_birthyear" />
+                android:text="@string/label_film_producer" />
 
+            <TextView
+                style="@style/LabelStyle"
+                android:text="@string/label_film_release_date" />
+
+            <TextView
+                style="@style/LabelStyle"
+                android:text="@string/label_film_characters" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginStart="@dimen/margin_character_label_side"
             android:divider="@drawable/divider_card_label"
             android:orientation="vertical"
             android:showDividers="middle"
-            app:layout_constraintBottom_toBottomOf="@+id/characterLabelContainer"
-            app:layout_constraintStart_toEndOf="@+id/characterLabelBarrier"
+            app:layout_constraintBottom_toBottomOf="@+id/filmLabelContainer"
+            app:layout_constraintStart_toEndOf="@+id/filmLabelBarrier"
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/itemCharacterName"
+                android:id="@+id/itemFilmTitle"
                 style="@style/ValueStyle"
-                tools:text="Luke Skywalker" />
+                tools:text="The Force Awakens" />
 
             <TextView
-                android:id="@+id/itemCharacterGender"
+                android:id="@+id/itemFilmDirector"
                 style="@style/ValueStyle"
-                tools:text="Male" />
+                tools:text="John Wick" />
 
             <TextView
-                android:id="@+id/itemCharacterBirthYear"
+                android:id="@+id/itemFilmProducer"
                 style="@style/ValueStyle"
-                tools:text="16BYY" />
+                tools:text="John Rambo John Rambo John Rambo John Rambo" />
+
+            <TextView
+                android:id="@+id/itemFilmReleaseDate"
+                style="@style/ValueStyle"
+                tools:text="2019-11-20" />
+
+            <TextView
+                android:id="@+id/itemFilmCharacterCount"
+                style="@style/ValueStyle"
+                tools:text="85" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

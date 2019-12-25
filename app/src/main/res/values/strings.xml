@@ -7,4 +7,28 @@
     <string name="message_characters_ended">No more StarWars characters to load</string>
     <string name="message_characters_empty">No StarWars characters found</string>
     <string name="hint_character">Search for StarWars character</string>
+
+    <string name="label_character_mass">Mass</string>
+    <string name="label_character_height">Height</string>
+    <string name="label_character_skin">Skin color</string>
+    <string name="label_character_hair">Hair Color</string>
+    <string name="label_character_details">Character Details</string>
+    <string name="label_character_films">Films</string>
+    <string name="label_character_starships">Starships</string>
+
+    <string name="label_film_title">Title</string>
+    <string name="label_film_director">Director</string>
+    <string name="label_film_producer">Producer</string>
+    <string name="label_film_release_date">Release Date</string>
+    <string name="label_film_characters">Character count</string>
+
+    <string name="label_starship_name">Name</string>
+    <string name="label_starship_model">Model</string>
+    <string name="label_starship_manufacturer">Manufacturer</string>
+    <string name="label_starship_cost">Credit cost</string>
+    <string name="label_starship_hyperdrive">Hyperdrive Rating</string>
+    <string name="label_starship_class">Class</string>
+    <string name="label_starship_pilots">Pilot count</string>
+
+
 </resources>

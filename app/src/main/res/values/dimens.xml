@@ -3,4 +3,7 @@
     <dimen name="margin_character_label_side">16dp</dimen>
     <dimen name="margin_character_label_top">4dp</dimen>
     <dimen name="padding_character_search">16dp</dimen>
+    <dimen name="margin_character_details">8dp</dimen>
+    <dimen name="margin_card_view">4dp</dimen>
+    <dimen name="elevation_card_view">2dp</dimen>
 </resources>

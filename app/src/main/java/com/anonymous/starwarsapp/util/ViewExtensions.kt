@@ -1,5 +1,6 @@
 package com.anonymous.starwarsapp.util
 
+import android.view.View
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 
@@ -11,5 +12,13 @@ fun Fragment.showShortSnackbar(message: String?) {
                 show()
             }
         }
+    }
+}
+
+fun View.goneIf(gone: Boolean) {
+    visibility = if (gone) {
+        View.GONE
+    } else {
+        View.VISIBLE
     }
 }

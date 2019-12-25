@@ -42,6 +42,8 @@ class CharacterListViewModel @Inject constructor(api: ApiController) : ViewModel
                 }
             })
             .build()
+
+        refreshData()
     }
 
     override fun onCleared() {

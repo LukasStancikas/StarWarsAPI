@@ -28,7 +28,12 @@ class CharacterListFragment : Fragment(), InjectableFragment, CharacterAdapter.O
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private lateinit var viewModel: CharacterListViewModel
-    private val adapter by lazy { CharacterAdapter() }
+    private val adapter by lazy {
+        CharacterAdapter().apply {
+            setOnItemClickListener(this@CharacterListFragment)
+            addLoadStateListener(pageLoadListener)
+        }
+    }
 
     private val pageLoadListener = object : PageLoadListenerWrapper() {
         override fun onStartedRefresh() {
@@ -76,19 +81,17 @@ class CharacterListFragment : Fragment(), InjectableFragment, CharacterAdapter.O
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         characterRecycler.adapter = adapter
-        adapter.setOnItemClickListener(this)
     }
 
     override fun onStart() {
         super.onStart()
-        adapter.addLoadStateListener(pageLoadListener)
         subscribeToViewModelStreams()
         subscribeViewInteractions()
     }
 
-    override fun onStop() {
+    override fun onDestroy() {
         adapter.removeLoadStateListener(pageLoadListener)
-        super.onStop()
+        super.onDestroy()
     }
 
     override fun onClick(item: SWCharacter) {
@@ -99,6 +102,7 @@ class CharacterListFragment : Fragment(), InjectableFragment, CharacterAdapter.O
     private fun subscribeViewInteractions() {
         characterSwipeRefresh
             .refreshes()
+            .skip(1)
             .bindToLifecycle(this)
             .subscribeBy(
                 onNext = { viewModel.refreshData() }
@@ -106,6 +110,7 @@ class CharacterListFragment : Fragment(), InjectableFragment, CharacterAdapter.O
 
         characterSearch
             .queryTextChanges()
+            .skipInitialValue()
             .debounce(SEARCH_DEBOUNCE_MS, TimeUnit.MILLISECONDS)
             .bindToLifecycle(this)
             .subscribeBy(

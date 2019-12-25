@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/margin_card_view"
+    app:cardElevation="@dimen/elevation_card_view">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/starshipLabelBarrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="right"
+            app:constraint_referenced_ids="starshipLabelContainer" />
+
+        <LinearLayout
+            android:id="@+id/starshipLabelContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:divider="@drawable/divider_card_label"
+            android:orientation="vertical"
+            android:showDividers="middle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                style="@style/LabelStyle"
+                android:text="@string/label_starship_name" />
+
+            <TextView
+                style="@style/LabelStyle"
+                android:text="@string/label_starship_model" />
+
+            <TextView
+                style="@style/LabelStyle"
+                android:text="@string/label_starship_manufacturer" />
+
+            <TextView
+                style="@style/LabelStyle"
+                android:text="@string/label_starship_cost" />
+
+            <TextView
+                style="@style/LabelStyle"
+                android:text="@string/label_starship_hyperdrive" />
+
+            <TextView
+                style="@style/LabelStyle"
+                android:text="@string/label_starship_class" />
+
+            <TextView
+                style="@style/LabelStyle"
+                android:text="@string/label_starship_pilots" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/margin_character_label_side"
+            android:divider="@drawable/divider_card_label"
+            android:orientation="vertical"
+            android:showDividers="middle"
+            app:layout_constraintBottom_toBottomOf="@+id/starshipLabelContainer"
+            app:layout_constraintStart_toEndOf="@+id/starshipLabelBarrier"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/itemStarshipName"
+                style="@style/ValueStyle"
+                tools:text="Millenium Eagle" />
+
+            <TextView
+                android:id="@+id/itemStarshipModel"
+                style="@style/ValueStyle"
+                tools:text="Star Wing" />
+
+            <TextView
+                android:id="@+id/itemStarshipManufacturer"
+                style="@style/ValueStyle"
+                tools:text="IKEA" />
+
+            <TextView
+                android:id="@+id/itemStarshipCost"
+                style="@style/ValueStyle"
+                tools:text="50000" />
+
+            <TextView
+                android:id="@+id/itemStarshipHyperdrive"
+                style="@style/ValueStyle"
+                tools:text="1.0" />
+
+            <TextView
+                android:id="@+id/itemStarshipClass"
+                style="@style/ValueStyle"
+                tools:text="First" />
+
+            <TextView
+                android:id="@+id/itemStarshipPilotCount"
+                style="@style/ValueStyle"
+                tools:text="85" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

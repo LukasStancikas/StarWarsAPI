@@ -7,7 +7,6 @@ import kotlinx.android.parcel.Parcelize
 data class SWFilm(
     val title: String,
     val episodeId: String,
-    val openingCrawl: String,
     val director: String,
     val producer: String,
     val releaseDate: String,
