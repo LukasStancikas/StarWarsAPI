@@ -13,10 +13,10 @@ class SWCharacterDataSourceFactory(
     private val onError: (Throwable) -> Unit
 ) : DataSource.Factory<Int, SWCharacter>() {
 
+    private var query: String? = null
+
     private val _dataSource = BehaviorSubject.create<SWCharacterDataSource>()
     val dataSource: Observable<SWCharacterDataSource> = _dataSource.hide()
-
-    private var query: String? = null
 
     override fun create(): DataSource<Int, SWCharacter> {
         return SWCharacterDataSource(apiController, onError, compositeDisposable, query)

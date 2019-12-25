@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.item_character.view.*
 class CharacterAdapter :
     PagedListAdapter<SWCharacter, CharacterAdapter.MyViewHolder>(CharacterDiffCallback()) {
 
-    private var itemClickListener : OnItemClickListener? = null
+    private var itemClickListener: OnItemClickListener? = null
 
     override fun onCreateViewHolder(
         parent: ViewGroup,

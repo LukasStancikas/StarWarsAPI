@@ -2,11 +2,8 @@ package com.anonymous.starwarsapp
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import androidx.paging.PagedList
 import com.anonymous.starwarsapp.feature.characterlist.CharacterListViewModel
 import com.anonymous.starwarsapp.model.SWCharacterPage
-import com.anonymous.starwarsapp.model.SWFilm
-import com.anonymous.starwarsapp.model.SWStarship
 import com.anonymous.starwarsapp.network.ApiController
 import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Single
@@ -15,10 +12,8 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.ArgumentCaptor
-import org.mockito.ArgumentMatchers
 import org.mockito.InjectMocks
 import org.mockito.Mock
-import org.mockito.Mockito.mock
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
@@ -69,6 +64,5 @@ class CharacterListViewModelTest {
             null,
             listOf()
         )
-
     }
 }

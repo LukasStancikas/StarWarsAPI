@@ -18,13 +18,13 @@ data class SWCharacter(
     val starships: List<String>
 ) : Parcelable {
 
-    fun getFilmIds(): List<String>{
+    fun getFilmIds(): List<String> {
         return films.map {
             Uri.parse(it).lastPathSegment
         }
     }
 
-    fun getStarshipIds(): List<String>{
+    fun getStarshipIds(): List<String> {
         return starships.map {
             Uri.parse(it).lastPathSegment
         }

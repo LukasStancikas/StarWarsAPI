@@ -1,7 +1,6 @@
 package com.anonymous.starwarsapp.util
 
 import androidx.paging.PagedList
-import timber.log.Timber
 
 abstract class PageLoadListenerWrapper : PagedList.LoadStateListener {
     private var hasInitiallyRefreshed: Boolean = false

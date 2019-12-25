@@ -128,7 +128,7 @@ class CharacterDetailsFragment : Fragment(), InjectableFragment {
     }
 
     companion object {
-        val TAG = CharacterDetailsFragment::class.java.name
+        val TAG: String = CharacterDetailsFragment::class.java.name
         private const val KEY_CHARACTER = "character"
 
         fun getInstance(character: SWCharacter): CharacterDetailsFragment {

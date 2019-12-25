@@ -1,6 +1,5 @@
 package com.anonymous.starwarsapp.util
 
-import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -12,11 +11,6 @@ fun <T> Observable<T>.asDriver(): Observable<T> {
 }
 
 fun <T> Single<T>.asDriver(): Single<T> {
-    return subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-}
-
-fun <T> Flowable<T>.asDriver(): Flowable<T> {
     return subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
 }
